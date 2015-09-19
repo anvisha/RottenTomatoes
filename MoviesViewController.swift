@@ -15,16 +15,17 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet weak var tableView: UITableView!
     
     var movies: [NSDictionary]?
+    let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         let samplestyle = JTProgressHUDStyle.Default
         JTProgressHUD.showWithStyle(samplestyle)
         tableView.rowHeight = 200
-
+        self.refreshControl.addTarget(self, action: "onRefresh:", forControlEvents: UIControlEvents.ValueChanged)
+        tableView.insertSubview(refreshControl, atIndex: 0)
         let url = NSURL(string: "https://gist.githubusercontent.com/timothy1ee/d1778ca5b944ed974db0/raw/489d812c7ceeec0ac15ab77bf7c47849f2d1eb2b/gistfile1.json")
         let request = NSURLRequest(URL: url!)
-//        JTProgressHUD.show()
         NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) { (response: NSURLResponse?, data: NSData?, error: NSError?) -> Void in
             JTProgressHUD.hide()
             if let d = data {
@@ -44,8 +45,34 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                 }
             }
         }
+
         tableView.dataSource = self
         tableView.delegate = self
+
+    }
+    
+    func onRefresh(sender: AnyObject) {
+        let url = NSURL(string: "https://gist.githubusercontent.com/timothy1ee/d1778ca5b944ed974db0/raw/489d812c7ceeec0ac15ab77bf7c47849f2d1eb2b/gistfile1.json")
+        let request = NSURLRequest(URL: url!)
+        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) { (response: NSURLResponse?, data: NSData?, error: NSError?) -> Void in
+            if let d = data {
+                let json = try! NSJSONSerialization.JSONObjectWithData(d, options: []) as? NSDictionary
+                if let json = json {
+                    self.movies = json["movies"] as? [NSDictionary]
+                    self.tableView.reloadData()
+                }
+                self.refreshControl.endRefreshing()
+            } else {
+                let label = UILabel(frame: CGRectMake(0, 0, 200, 21))
+                label.center = CGPointMake(160, 284)
+                label.textAlignment = NSTextAlignment.Center
+                label.text = "Network Error"
+                self.view.addSubview(label)
+                if let e = error {
+                    NSLog("Error: \(e)")
+                }
+            }
+        }
 
     }
     
