@@ -8,9 +8,11 @@
 
 import UIKit
 
-class MoviesViewController: UIViewController {
+class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
+    
+    var movies: [NSDictionary]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,16 +20,38 @@ class MoviesViewController: UIViewController {
         let request = NSURLRequest(URL: url!)
         NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) { (response: NSURLResponse?, data: NSData?, error: NSError?) -> Void in
             if let d = data {
-                let object = try! NSJSONSerialization.JSONObjectWithData(d, options: [])
-                print(object)
+                let json = try! NSJSONSerialization.JSONObjectWithData(d, options: []) as? NSDictionary
+                if let json = json {
+                    self.movies = json["movies"] as? [NSDictionary]
+                    self.tableView.reloadData()
+                }
             } else {
                 if let e = error {
                     NSLog("Error: \(e)")
                 }
             }
         }
+        tableView.dataSource = self
+        tableView.delegate = self
 
     }
-
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if let movies = movies {
+            return movies.count
+        } else {
+            return 0
+        }
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("MovieCell", forIndexPath: indexPath) as UITableViewCell
+        
+        let movie = movies![indexPath.row]
+        cell.textLabel?.text = movie["title"] as? String
+        
+        return cell
+        
+    }
 
 }
