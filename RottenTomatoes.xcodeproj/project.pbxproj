@@ -8,12 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		DE1DA7761BA7EA7000506A74 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE1DA7751BA7EA7000506A74 /* AppDelegate.swift */; };
-		DE1DA7781BA7EA7000506A74 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE1DA7771BA7EA7000506A74 /* ViewController.swift */; };
 		DE1DA77B1BA7EA7000506A74 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DE1DA7791BA7EA7000506A74 /* Main.storyboard */; };
 		DE1DA77D1BA7EA7000506A74 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE1DA77C1BA7EA7000506A74 /* Assets.xcassets */; };
 		DE1DA7801BA7EA7000506A74 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DE1DA77E1BA7EA7000506A74 /* LaunchScreen.storyboard */; };
 		DE1DA78B1BA7EA7000506A74 /* RottenTomatoesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE1DA78A1BA7EA7000506A74 /* RottenTomatoesTests.swift */; };
 		DE1DA7961BA7EA7000506A74 /* RottenTomatoesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE1DA7951BA7EA7000506A74 /* RottenTomatoesUITests.swift */; };
+		DE1DA7A41BA9668100506A74 /* MoviesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE1DA7A31BA9668100506A74 /* MoviesViewController.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +36,6 @@
 /* Begin PBXFileReference section */
 		DE1DA7721BA7EA7000506A74 /* RottenTomatoes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RottenTomatoes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE1DA7751BA7EA7000506A74 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		DE1DA7771BA7EA7000506A74 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		DE1DA77A1BA7EA7000506A74 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DE1DA77C1BA7EA7000506A74 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DE1DA77F1BA7EA7000506A74 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -47,6 +46,7 @@
 		DE1DA7911BA7EA7000506A74 /* RottenTomatoesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RottenTomatoesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE1DA7951BA7EA7000506A74 /* RottenTomatoesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RottenTomatoesUITests.swift; sourceTree = "<group>"; };
 		DE1DA7971BA7EA7000506A74 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DE1DA7A31BA9668100506A74 /* MoviesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MoviesViewController.swift; path = ../MoviesViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,8 +97,8 @@
 		DE1DA7741BA7EA7000506A74 /* RottenTomatoes */ = {
 			isa = PBXGroup;
 			children = (
+				DE1DA7A51BA9668D00506A74 /* View Controllers */,
 				DE1DA7751BA7EA7000506A74 /* AppDelegate.swift */,
-				DE1DA7771BA7EA7000506A74 /* ViewController.swift */,
 				DE1DA7791BA7EA7000506A74 /* Main.storyboard */,
 				DE1DA77C1BA7EA7000506A74 /* Assets.xcassets */,
 				DE1DA77E1BA7EA7000506A74 /* LaunchScreen.storyboard */,
@@ -123,6 +123,14 @@
 				DE1DA7971BA7EA7000506A74 /* Info.plist */,
 			);
 			path = RottenTomatoesUITests;
+			sourceTree = "<group>";
+		};
+		DE1DA7A51BA9668D00506A74 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				DE1DA7A31BA9668100506A74 /* MoviesViewController.swift */,
+			);
+			name = "View Controllers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -255,8 +263,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DE1DA7781BA7EA7000506A74 /* ViewController.swift in Sources */,
 				DE1DA7761BA7EA7000506A74 /* AppDelegate.swift in Sources */,
+				DE1DA7A41BA9668100506A74 /* MoviesViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -481,6 +489,7 @@
 				DE1DA79C1BA7EA7000506A74 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DE1DA79D1BA7EA7000506A74 /* Build configuration list for PBXNativeTarget "RottenTomatoesTests" */ = {
 			isa = XCConfigurationList;
@@ -489,6 +498,7 @@
 				DE1DA79F1BA7EA7000506A74 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DE1DA7A01BA7EA7000506A74 /* Build configuration list for PBXNativeTarget "RottenTomatoesUITests" */ = {
 			isa = XCConfigurationList;
@@ -497,6 +507,7 @@
 				DE1DA7A21BA7EA7000506A74 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
