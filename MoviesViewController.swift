@@ -8,6 +8,7 @@
 
 import UIKit
 import AFNetworking
+import JTProgressHUD
 
 class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -17,10 +18,15 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let samplestyle = JTProgressHUDStyle.Default
+        JTProgressHUD.showWithStyle(samplestyle)
         tableView.rowHeight = 200
+
         let url = NSURL(string: "https://gist.githubusercontent.com/timothy1ee/d1778ca5b944ed974db0/raw/489d812c7ceeec0ac15ab77bf7c47849f2d1eb2b/gistfile1.json")
         let request = NSURLRequest(URL: url!)
+//        JTProgressHUD.show()
         NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) { (response: NSURLResponse?, data: NSData?, error: NSError?) -> Void in
+            JTProgressHUD.hide()
             if let d = data {
                 let json = try! NSJSONSerialization.JSONObjectWithData(d, options: []) as? NSDictionary
                 if let json = json {
@@ -28,6 +34,11 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                     self.tableView.reloadData()
                 }
             } else {
+                let label = UILabel(frame: CGRectMake(0, 0, 200, 21))
+                label.center = CGPointMake(160, 284)
+                label.textAlignment = NSTextAlignment.Center
+                label.text = "Network Error"
+                self.view.addSubview(label)
                 if let e = error {
                     NSLog("Error: \(e)")
                 }
@@ -54,10 +65,18 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         cell.synopsisLabel.text = movie["synopsis"] as? String
         
         let url = NSURL(string: movie.valueForKeyPath("posters.thumbnail") as! String)
-        
         cell.posterView.setImageWithURL(url!)
+
         return cell
         
     }
-
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let vc = segue.destinationViewController as! MovieDetailsViewController
+        let indexPath = tableView.indexPathForCell(sender as! UITableViewCell)
+        vc.selectedMovie = self.movies![indexPath!.row] 
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
+    
 }
