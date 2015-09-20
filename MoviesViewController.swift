@@ -10,11 +10,13 @@ import UIKit
 import AFNetworking
 import JTProgressHUD
 
-class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate  {
 
     @IBOutlet weak var tableView: UITableView!
-    
+    @IBOutlet weak var searchBar: UISearchBar!
+    var searchActive: Bool = false
     var movies: [NSDictionary]?
+    var filteredMovies: [NSDictionary]?
     let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
@@ -27,7 +29,12 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         getMovies()
         tableView.dataSource = self
         tableView.delegate = self
+        searchBar.delegate = self
 
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        print(searchActive)
     }
     
     func onRefresh(sender: AnyObject) {
@@ -60,12 +67,16 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                 }
             }
         }
-
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let movies = movies {
-            return movies.count
+            if searchActive {
+                return filteredMovies!.count
+            }
+            else {
+                return movies.count
+            }
         } else {
             return 0
         }
@@ -73,8 +84,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("MovieCell", forIndexPath: indexPath) as! MovieCell
-        
-        let movie = movies![indexPath.row]
+        let data =  searchActive ? filteredMovies : movies
+        let movie = data![indexPath.row]
         cell.titleLabel.text = movie["title"] as? String
         cell.synopsisLabel.text = movie["synopsis"] as? String
         
@@ -85,10 +96,40 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
     }
     
+    //below boilerplate taken from http://shrikar.com/swift-ios-tutorial-uisearchbar-and-uisearchbardelegate/
+
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        print("cancel")
+        searchActive = false;
+        searchBar.endEditing(true)
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        searchActive = true;
+        searchBar.endEditing(true)
+    }
+    
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text != "" {
+            searchActive = true;
+            filteredMovies = self.movies!.filter({ (movie) -> Bool in
+                let title = movie["title"] as! NSString
+                let search = title.rangeOfString(searchText, options: NSStringCompareOptions.CaseInsensitiveSearch)
+                return search.location != NSNotFound
+            })
+        } else {
+            searchActive = false;
+            searchBar.endEditing(true)
+        }
+        self.tableView.reloadData()
+        
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let vc = segue.destinationViewController as! MovieDetailsViewController
         let indexPath = tableView.indexPathForCell(sender as! UITableViewCell)
-        vc.selectedMovie = self.movies![indexPath!.row] 
+        let data =  searchActive ? filteredMovies : movies
+        vc.selectedMovie = data![indexPath!.row]
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
