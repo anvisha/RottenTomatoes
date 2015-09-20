@@ -96,12 +96,34 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
     }
     
-    //below boilerplate taken from http://shrikar.com/swift-ios-tutorial-uisearchbar-and-uisearchbardelegate/
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
+    
+    
+    //some of the below boilerplate taken from http://shrikar.com/swift-ios-tutorial-uisearchbar-and-uisearchbardelegate/
 
+    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+        searchBar.showsCancelButton = true
+        return true
+    }
+    
+    func searchBarShouldEndEditing(searchBar: UISearchBar) -> Bool {
+        searchBar.showsCancelButton = false
+        return true
+    }
+    
+//    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+//        searchActive = false;
+//        searchBar.endEditing(true)
+//        self.tableView.reloadData()
+//    }
+    
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        print("cancel")
+        searchBar.text = ""
         searchActive = false;
         searchBar.endEditing(true)
+        self.tableView.reloadData()
     }
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
