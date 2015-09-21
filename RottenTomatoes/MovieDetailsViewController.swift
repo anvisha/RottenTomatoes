@@ -104,7 +104,11 @@ class MovieDetailsViewController: UIViewController, UITableViewDataSource, UITab
         if let range = range {
             url = url.stringByReplacingCharactersInRange(range, withString: "https://content6.flixster.com/")
         }
+        cell.posterView.alpha = 0.0
         cell.posterView.setImageWithURL(NSURL(string: url)!)
+        UIView.animateWithDuration(1.5, animations: {
+            cell.posterView.alpha = 1.0
+        })
         return cell
     }
     

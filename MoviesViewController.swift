@@ -47,8 +47,10 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     func getMovies(onCompletion: (() -> ())? = nil) {
     
         let url = NSURL(string: "https://gist.githubusercontent.com/timothy1ee/d1778ca5b944ed974db0/raw/489d812c7ceeec0ac15ab77bf7c47849f2d1eb2b/gistfile1.json")
-        let request = NSURLRequest(URL: url!)
+        let request = NSURLRequest(URL: url!, cachePolicy: NSURLRequestCachePolicy.ReturnCacheDataElseLoad, timeoutInterval: NSTimeInterval(1000))
+//        let request = NSURLRequest(URL: url!)
         NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) { (response: NSURLResponse?, data: NSData?, error: NSError?) -> Void in
+            self.isConnected()
             JTProgressHUD.hide()
             if let d = data {
                 let json = try! NSJSONSerialization.JSONObjectWithData(d, options: []) as? NSDictionary
@@ -60,6 +62,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                 }
                 onCompletion?()
             } else {
+                print("Hi")
                 self.networkErrorLabel.hidden = false
                 if let e = error {
                     NSLog("Error: \(e)")
@@ -87,11 +90,26 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         let movie = data![indexPath.row]
         cell.titleLabel.text = movie["title"] as? String
         cell.synopsisLabel.text = movie["synopsis"] as? String
-        
-        let url = NSURL(string: movie.valueForKeyPath("posters.thumbnail") as! String)
-        cell.posterView.setImageWithURL(url!)
+        var urlText = movie.valueForKeyPath("posters.thumbnail") as! String
+        var url = NSURL(string: urlText)
+        let range = urlText.rangeOfString(".*cloudfront.net/", options: .RegularExpressionSearch)
+        if let range = range {
+            url = NSURL(string: urlText.stringByReplacingCharactersInRange(range, withString: "https://content6.flixster.com/"))
+        }
 
+        let urlRequest = NSURLRequest(URL: url!, cachePolicy: NSURLRequestCachePolicy.ReturnCacheDataElseLoad, timeoutInterval: NSTimeInterval(1000000))
+
+        cell.posterView.alpha = 0.0
+        cell.posterView.setImageWithURLRequest(urlRequest, placeholderImage: nil, success: nil, failure: nil)
+        UIView.animateWithDuration(1.0, animations: {
+            cell.posterView.alpha = 1.0
+        })
         return cell
+        
+    }
+    
+    func imageFadeIn() {
+        
         
     }
     
@@ -137,6 +155,27 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
             searchBar.endEditing(true)
         }
         self.tableView.reloadData()
+        
+    }
+    
+    func isConnected(){
+        AFNetworkReachabilityManager.sharedManager().startMonitoring()
+        
+        AFNetworkReachabilityManager.sharedManager().setReachabilityStatusChangeBlock { (AFNetworkReachabilityStatus) -> Void in
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                switch (AFNetworkReachabilityStatus){
+                case .NotReachable:
+                    self.networkErrorLabel.hidden = false
+                case .ReachableViaWiFi:
+                    self.networkErrorLabel.hidden = true
+                case .ReachableViaWWAN:
+                    self.networkErrorLabel.hidden = true
+                case .Unknown:
+                    self.networkErrorLabel.hidden = false
+                }
+            })
+        }
         
     }
     

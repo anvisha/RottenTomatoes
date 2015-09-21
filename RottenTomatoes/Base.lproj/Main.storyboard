@@ -8,9 +8,14 @@
         <scene sceneID="XBu-yZ-Q8p">
             <objects>
                 <navigationController id="9xW-Th-1G7" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Kcv-GO-7dd">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="Kcv-GO-7dd">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.16137941919191923" green="0.0" blue="0.0" alpha="0.75" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.76448074494949492" green="0.0" blue="0.0" alpha="0.47999999999999998" colorSpace="calibratedRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" red="0.16666666666666663" green="0.0" blue="0.0" alpha="0.75" colorSpace="calibratedRGB"/>
+                        </textAttributes>
                     </navigationBar>
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="ob7-IQ-Nra"/>
@@ -20,7 +25,7 @@
             </objects>
             <point key="canvasLocation" x="246" y="319"/>
         </scene>
-        <!--Now Playing-->
+        <!--RottenTomatoes-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="MoviesViewController" customModule="RottenTomatoes" customModuleProvider="target" sceneMemberID="viewController">
@@ -93,7 +98,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Now Playing" id="Urv-e0-nFG"/>
+                    <navigationItem key="navigationItem" title="RottenTomatoes" id="Urv-e0-nFG"/>
                     <connections>
                         <outlet property="networkErrorLabel" destination="v5N-Vg-pcc" id="kjM-g0-awp"/>
                         <outlet property="searchBar" destination="FMS-3T-WOW" id="vpW-Oe-hEP"/>
