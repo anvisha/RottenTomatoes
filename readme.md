@@ -25,7 +25,7 @@ Time spent: `<Number of hours spent>`
 - [x] Add a search bar: pretty simple implementation of searching against the existing table view data.
 
 ### Walkthrough
-![Video Walkthrough]("basic.gif")
+![Video Walkthrough](basic.gif)
 ![After turning wifi off](network.gif)
 
 Credits
