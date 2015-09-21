@@ -54,35 +54,39 @@ class MovieDetailsViewController: UIViewController, UITableViewDataSource, UITab
         
 //        let height = 0
         
-        let titleLabel = UILabel(frame: CGRect(x: 5, y: 10, width: 320, height: 20))
+        let titleLabel = UILabel(frame: CGRect(x: 10, y: 10, width: 310, height: 20))
         titleLabel.text = selectedMovie?["title"] as? String
+        titleLabel.textColor = UIColor.whiteColor()
+        titleLabel.font = UIFont.boldSystemFontOfSize(16)
         
-        let ratingsLabel = UILabel(frame: CGRect(x: 5, y: 40, width: 320, height: 20))
+        let ratingsLabel = UILabel(frame: CGRect(x: 10, y: 40, width: 310, height: 20))
         let criticsScore = selectedMovie!.valueForKeyPath("ratings.critics_score") as! Int
         let audienceScore = selectedMovie!.valueForKeyPath("ratings.audience_score") as! Int
         let ratingsContent = "Critics Rating: \(criticsScore)%, Audience Rating: \(audienceScore)%"
         ratingsLabel.font = UIFont(name: ratingsLabel.font.fontName, size: 13)
+        ratingsLabel.textColor = UIColor.whiteColor()
         ratingsLabel.text = ratingsContent
         
         let synopsisText = selectedMovie!["synopsis"] as! String
     
-        let synopsisLabel = UILabel(frame: CGRect(x: 5, y: 70, width: 320, height: 100))
+        let synopsisLabel = UILabel(frame: CGRect(x: 10, y: 70, width: 310, height: 100))
         synopsisLabel.preferredMaxLayoutWidth = 320
         synopsisLabel.numberOfLines = 0
         synopsisLabel.text = synopsisText
         synopsisLabel.font = UIFont(name: synopsisLabel.font.fontName, size: 13)
+        synopsisLabel.textColor = UIColor.whiteColor()
         synopsisLabel.sizeToFit()
-        let labelHeight = synopsisLabel.frame.height + 70
+        let labelHeight = synopsisLabel.frame.height + 80
         
         let containerSize = CGSize(width: 320, height: labelHeight)
-        containerView = UIView(frame: CGRect(origin: CGPoint(x:0, y:400), size: containerSize))
-        containerView.backgroundColor = UIColor.blueColor()
+        containerView = UIView(frame: CGRect(origin: CGPoint(x:0, y:380), size: containerSize))
+        containerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.8)
         
         containerView.addSubview(titleLabel)
         containerView.addSubview(ratingsLabel)
         containerView.addSubview(synopsisLabel)
         
-        return labelHeight + 400
+        return labelHeight + 380
         
     }
 
