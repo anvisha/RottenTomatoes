@@ -11,14 +11,79 @@ import AFNetworking
 
 class MovieDetailsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var tableView: UITableView!
+    var containerView: UIView!
+    
     var selectedMovie: NSDictionary?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpScrollView()
         tableView.dataSource = self
         tableView.delegate = self
         tableView.reloadData()
+    }
+    
+    func setUpScrollView() {
+        
+        //suggestions taken from http://www.raywenderlich.com/76436/use-uiscrollview-scroll-zoom-content-swift
+        
+        scrollView.scrollEnabled = true
+        scrollView.delegate = self
+        
+        let height = setUpDetailsView()
+        
+        scrollView.addSubview(containerView)
+        
+        scrollView.contentSize = CGSize(width: 320, height: height)
+        
+        let scrollViewFrame = scrollView.frame
+        let scaleWidth = scrollViewFrame.size.width / scrollView.contentSize.width
+        let scaleHeight = scrollViewFrame.size.height / scrollView.contentSize.height
+        let minScale = min(scaleWidth, scaleHeight);
+        scrollView.minimumZoomScale = minScale;
+        
+        // 5
+        scrollView.maximumZoomScale = 1.0
+        scrollView.zoomScale = minScale;
+        
+    }
+    
+    func setUpDetailsView() -> (CGFloat) {
+        
+//        let height = 0
+        
+        let titleLabel = UILabel(frame: CGRect(x: 5, y: 10, width: 320, height: 20))
+        titleLabel.text = selectedMovie?["title"] as? String
+        
+        let ratingsLabel = UILabel(frame: CGRect(x: 5, y: 40, width: 320, height: 20))
+        let criticsScore = selectedMovie!.valueForKeyPath("ratings.critics_score") as! Int
+        let audienceScore = selectedMovie!.valueForKeyPath("ratings.audience_score") as! Int
+        let ratingsContent = "Critics Rating: \(criticsScore)%, Audience Rating: \(audienceScore)%"
+        ratingsLabel.font = UIFont(name: ratingsLabel.font.fontName, size: 13)
+        ratingsLabel.text = ratingsContent
+        
+        let synopsisText = selectedMovie!["synopsis"] as! String
+    
+        let synopsisLabel = UILabel(frame: CGRect(x: 5, y: 70, width: 320, height: 100))
+        synopsisLabel.preferredMaxLayoutWidth = 320
+        synopsisLabel.numberOfLines = 0
+        synopsisLabel.text = synopsisText
+        synopsisLabel.font = UIFont(name: synopsisLabel.font.fontName, size: 13)
+        synopsisLabel.sizeToFit()
+        let labelHeight = synopsisLabel.frame.height + 70
+        
+        let containerSize = CGSize(width: 320, height: labelHeight)
+        containerView = UIView(frame: CGRect(origin: CGPoint(x:0, y:400), size: containerSize))
+        containerView.backgroundColor = UIColor.blueColor()
+        
+        containerView.addSubview(titleLabel)
+        containerView.addSubview(ratingsLabel)
+        containerView.addSubview(synopsisLabel)
+        
+        return labelHeight + 400
+        
     }
 
     override func didReceiveMemoryWarning() {

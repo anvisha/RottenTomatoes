@@ -113,12 +113,6 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         return true
     }
     
-//    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
-//        searchActive = false;
-//        searchBar.endEditing(true)
-//        self.tableView.reloadData()
-//    }
-    
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         searchBar.text = ""
         searchActive = false;
