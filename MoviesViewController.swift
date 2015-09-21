@@ -13,6 +13,7 @@ import JTProgressHUD
 class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate  {
 
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var networkErrorLabel: UILabel!
     @IBOutlet weak var searchBar: UISearchBar!
     var searchActive: Bool = false
     var movies: [NSDictionary]?
@@ -53,15 +54,13 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                 let json = try! NSJSONSerialization.JSONObjectWithData(d, options: []) as? NSDictionary
                 if let json = json {
                     self.movies = json["movies"] as? [NSDictionary]
+                    self.networkErrorLabel.hidden = true
                     self.tableView.reloadData()
+                    
                 }
                 onCompletion?()
             } else {
-                let label = UILabel(frame: CGRectMake(0, 0, 200, 21))
-                label.center = CGPointMake(160, 284)
-                label.textAlignment = NSTextAlignment.Center
-                label.text = "Network Error"
-                self.view.addSubview(label)
+                self.networkErrorLabel.hidden = false
                 if let e = error {
                     NSLog("Error: \(e)")
                 }

@@ -20,7 +20,7 @@
             </objects>
             <point key="canvasLocation" x="246" y="319"/>
         </scene>
-        <!--Movies View Controller-->
+        <!--Now Playing-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="MoviesViewController" customModule="RottenTomatoes" customModuleProvider="target" sceneMemberID="viewController">
@@ -82,11 +82,20 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Network Error" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="v5N-Vg-pcc">
+                                <rect key="frame" x="107" y="108" width="107" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Urv-e0-nFG"/>
+                    <navigationItem key="navigationItem" title="Now Playing" id="Urv-e0-nFG"/>
                     <connections>
+                        <outlet property="networkErrorLabel" destination="v5N-Vg-pcc" id="kjM-g0-awp"/>
                         <outlet property="searchBar" destination="FMS-3T-WOW" id="vpW-Oe-hEP"/>
                         <outlet property="tableView" destination="iua-vk-G2e" id="vZU-6c-Q0D"/>
                     </connections>
@@ -109,7 +118,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MovieDetailsCell" rowHeight="542" id="0eR-fK-1Ei" customClass="MovieDetailsCell" customModule="RottenTomatoes" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="320" height="542"/>
+                                        <rect key="frame" x="0.0" y="92" width="320" height="542"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0eR-fK-1Ei" id="u5F-76-MhG">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="541.5"/>
@@ -121,6 +130,7 @@
                                                 </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <outlet property="posterView" destination="XW7-ap-elA" id="ezy-B7-wdJ"/>
                                         </connections>
@@ -135,7 +145,7 @@
                                 </connections>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="yBZ-az-kMT"/>
                     <connections>
