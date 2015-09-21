@@ -27,9 +27,11 @@ Time spent: `<Number of hours spent>`
 ### Walkthrough
 
 All functionality
+
 ![Video Walkthrough](basic.gif)
 
 After turning wifi off
+
 ![After turning wifi off](network.gif)
 
 Credits
